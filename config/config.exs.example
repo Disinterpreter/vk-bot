@@ -1,0 +1,19 @@
+import Config
+
+config :webserver, Db,
+  ip: "DBIP",
+  user: "BDUSER",
+  password: "PASS",
+  dbname: "DBNAME"
+
+config :webserver, Http,
+  port: 8080
+
+config :webserver, Vk,
+  cbtoken: "ab3ec",
+  grouptoken: "TOKEN",
+  usertoken: "TOKEN",
+  v: "5.103"
+config :webserver, Botsettings,
+  determinator: "Тест",
+  mention: "[clubID|@botname]"
