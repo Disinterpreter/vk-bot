@@ -16,6 +16,20 @@ defmodule Webserver.Parser do
       botst = Application.get_env(:webserver, Botsettings)
       btype = String.match?(text, ~r/^#{botst[:determinator]}|^\[club#{botst[:clubid]}\|/iu)
 
+      if (peer_id == from_id) do
+        word = case String.split(text, " ") do
+         [arg | _args] -> arg
+        end
+        IO.inspect(word)
+        {:ok, call_cmd} = Webserver.Pgdb.checkCommand(from_id, peer_id, word)
+
+        if (call_cmd != "NULL") do
+         apply(String.to_atom("Elixir.Webserver.Commands."<> call_cmd), String.to_atom("exec"), [Map.fetch(json, "object")])
+         {:ok}
+        else
+         {:ok}
+        end
+      end
       if (btype) do
         case String.split(text, " ") do
           [_determinant, cmd | _args] ->

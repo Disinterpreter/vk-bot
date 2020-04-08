@@ -4,8 +4,10 @@ defmodule Webserver.Pgdb do
 
   defp connect() do
     dbconf = Application.get_env(:webserver, Db)
-    {:ok, pid} = Postgrex.start_link(hostname: dbconf[:ip], username: dbconf[:user], password: dbconf[:password], database: dbconf[:dbname])
-    {:ok, pid}
+    case Postgrex.start_link(hostname: dbconf[:ip], username: dbconf[:user], password: dbconf[:password], database: dbconf[:dbname]) do
+      {:ok, pid} -> {:ok, pid}
+      _ -> connect()
+    end
   end
 
   def checkCommand(id, chatid, cmd) do
