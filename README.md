@@ -1,21 +1,11 @@
-# Webserver
+# Костян
 
-**TODO: Add description**
+Новая очередная версия старого костяна
 
-## Installation
+## Что нового?
+Написан на Elixir, работает совместно с СУБД (PostgreSQL).
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `webserver` to your list of dependencies in `mix.exs`:
+Все команды лежат в lib/webserver/commands
 
-```elixir
-def deps do
-  [
-    {:webserver, "~> 0.1.0"}
-  ]
-end
-```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/webserver](https://hexdocs.pm/webserver).
+Пока что в нем нет ничего особенного. Можешь даже не пытаться.
 
