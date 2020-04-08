@@ -13,7 +13,7 @@ defmodule Webserver.Commands.Joke do
         -164517505
       ]
       {:ok, wallurl} = Webserver.Vk.wallGet(groups)
-      {:ok ,%{ "peer_id" => peer_id}} = data
+      {:ok ,%{"message" => %{"peer_id" => peer_id} }} = data
       Webserver.Vk.messageSend(peer_id, "Вот", wallurl)
       {:ok}
   end

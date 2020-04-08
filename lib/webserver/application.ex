@@ -5,7 +5,7 @@ defmodule Webserver.Application do
     httpconf = Application.get_env(:webserver, Http)
 
     children = [
-      {Plug.Cowboy, scheme: :http, plug: Webserver, options: [port: httpconf[:port]]}
+      {Plug.Cowboy, scheme: :http, plug: Webserver, options: [:inet6, port: httpconf[:port]]}
     ]
     opts = [strategy: :one_for_one, name: Webserver.Supervisor]
 

@@ -5,13 +5,17 @@ defmodule Webserver.Parser do
 
   def parse(body) do
     json =Jason.decode!(body)
+
+    # IO.inspect(json)
     {:ok, type} = Map.fetch(json, "type")
     if type == "message_new" do
-      {:ok, %{"peer_id" => peer_id, "from_id" => from_id, "text" => text}} = Map.fetch(json, "object")
+      obj = Map.fetch(json, "object")
+      {:ok, %{"message" => %{ "peer_id" => peer_id, "from_id" => from_id, "text" => text } } } = obj
 
 
       botst = Application.get_env(:webserver, Botsettings)
-      btype = String.match?(text, ~r/^#{botst[:determinator]}|^#{botst[:mention]}/iu)
+      btype = String.match?(text, ~r/^#{botst[:determinator]}|^\[club#{botst[:clubid]}\|/iu)
+
       if (btype) do
         case String.split(text, " ") do
           [_determinant, cmd | _args] ->
