@@ -1,3 +1,30 @@
+/*
+ Navicat Premium Data Transfer
+
+ Source Server         : cirno-pg
+ Source Server Type    : PostgreSQL
+ Source Server Version : 110007
+ Source Host           : disi.moe:5432
+ Source Catalog        : bot
+ Source Schema         : public
+
+ Target Server Type    : PostgreSQL
+ Target Server Version : 110007
+ File Encoding         : 65001
+
+ Date: 16/04/2020 16:36:58
+*/
+
+
+-- ----------------------------
+-- Type structure for get_roles
+-- ----------------------------
+DROP TYPE IF EXISTS "public"."get_roles";
+CREATE TYPE "public"."get_roles" AS (
+  "f1" int4,
+  "f2" varchar COLLATE "pg_catalog"."default"
+);
+
 -- ----------------------------
 -- Sequence structure for commands_id_seq
 -- ----------------------------
@@ -161,17 +188,46 @@ $BODY$
   COST 100;
 
 -- ----------------------------
+-- Function structure for get_roles
+-- ----------------------------
+DROP FUNCTION IF EXISTS "public"."get_roles"("chat_id" int8);
+CREATE OR REPLACE FUNCTION "public"."get_roles"("chat_id" int8)
+  RETURNS SETOF "public"."get_roles" AS $BODY$
+DECLARE
+		-- CREATE TYPE get_roles AS (f1 integer,f2 varchar );
+    resp get_roles;
+BEGIN
+		FOR resp IN 
+		SELECT
+        roles.role_id,
+				roles.role_name
+    FROM
+        roles
+    INNER JOIN purpose ON roles.role_id = purpose.role_id
+    INNER JOIN users ON purpose.user_id = users."id"
+    WHERE users.user_id = "chat_id"
+		LOOP
+			return next resp; 
+		END LOOP;
+
+END
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+
+-- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."commands_id_seq"
 OWNED BY "public"."commands"."id";
-SELECT setval('"public"."commands_id_seq"', 6, true);
+SELECT setval('"public"."commands_id_seq"', 7, true);
 ALTER SEQUENCE "public"."permissions_perm_id_seq"
 OWNED BY "public"."permissions"."perm_id";
 SELECT setval('"public"."permissions_perm_id_seq"', 3, true);
 ALTER SEQUENCE "public"."purpose_perp_id_seq"
 OWNED BY "public"."purpose"."perp_id";
-SELECT setval('"public"."purpose_perp_id_seq"', 2, true);
+SELECT setval('"public"."purpose_perp_id_seq"', 4, true);
 ALTER SEQUENCE "public"."roles_role_id_seq"
 OWNED BY "public"."roles"."role_id";
 SELECT setval('"public"."roles_role_id_seq"', 2, true);
