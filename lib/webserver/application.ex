@@ -8,7 +8,6 @@ defmodule Webserver.Application do
       {Plug.Cowboy, scheme: :http, plug: Webserver, options: [:inet6, port: httpconf[:port]]}
     ]
     opts = [strategy: :one_for_one, name: Webserver.Supervisor]
-
     Logger.info("Starting application...")
     Supervisor.start_link(children, opts)
   end

@@ -1,7 +1,8 @@
 defmodule Webserver.Commands.Help do
   require Logger
 
-  def exec(_data) do
+  def exec(data) do
+      IO.inspect(data)
       {:ok}
   end
 end
